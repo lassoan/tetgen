@@ -1,5 +1,11 @@
+PROJECT(TetGen)
+
 # Set  the minimum  required version  of cmake  for a  project.
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.1)
+
+mark_as_advanced( TETGEN_RUNTIME_DIR )
+set( TETGEN_RUNTIME_DIR "bin" CACHE STRING
+  "Directory for installing runtime files; path is relative to CMAKE_INSTALL_PREFIX" )
 
 # Add an executable to the project using the specified source files.
 add_executable(tetgen tetgen.cxx predicates.cxx)
@@ -12,3 +18,7 @@ add_library(tet STATIC tetgen.cxx predicates.cxx)
 #We use this here to set -DTETLIBRARY for when compiling the
 #library
 set_target_properties(tet PROPERTIES "COMPILE_DEFINITIONS" TETLIBRARY)
+
+install( TARGETS tetgen
+  RUNTIME DESTINATION ${TETGEN_RUNTIME_DIR}
+  COMPONENT RuntimeLibraries )
